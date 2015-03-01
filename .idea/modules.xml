@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/libraries/ActionBar-PullToRefresh-libraries/ActionBar-PullToRefresh-libraries.iml" filepath="$PROJECT_DIR$/libraries/ActionBar-PullToRefresh-libraries/ActionBar-PullToRefresh-libraries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/Caldroid-master/Caldroid-master.iml" filepath="$PROJECT_DIR$/libraries/Caldroid-master/Caldroid-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/FadingActionBar-library/FadingActionBar-library.iml" filepath="$PROJECT_DIR$/libraries/FadingActionBar-library/FadingActionBar-library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JieXieYing.iml" filepath="$PROJECT_DIR$/JieXieYing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/KenBurnsView/KenBurnsView.iml" filepath="$PROJECT_DIR$/libraries/KenBurnsView/KenBurnsView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/PagerSlidingTabStrip-master/PagerSlidingTabStrip-master.iml" filepath="$PROJECT_DIR$/libraries/PagerSlidingTabStrip-master/PagerSlidingTabStrip-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/android-pdfview/android-pdfview.iml" filepath="$PROJECT_DIR$/libraries/android-pdfview/android-pdfview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/cardslib/cardslib.iml" filepath="$PROJECT_DIR$/libraries/cardslib/cardslib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/circleimageview/circleimageview.iml" filepath="$PROJECT_DIR$/circleimageview/circleimageview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/ActionBar-PullToRefresh-libraries/libraries-ActionBar-PullToRefresh-libraries.iml" filepath="$PROJECT_DIR$/libraries/ActionBar-PullToRefresh-libraries/libraries-ActionBar-PullToRefresh-libraries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/KenBurnsView/libraries-KenBurnsView.iml" filepath="$PROJECT_DIR$/libraries/KenBurnsView/libraries-KenBurnsView.iml" />
+    </modules>
+  </component>
+</project>
+

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white" >
+    
+    <RelativeLayout 
+        android:id="@+id/forumlist_ll_id"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@drawable/forum_title_bg"
+	    android:orientation="horizontal" 
+	    android:gravity="center_vertical"
+	    android:paddingTop="5dp"
+	    android:paddingBottom="5dp">
+	    <Button 
+ 		     android:id="@+id/forum_back_id"
+ 		     android:layout_width="wrap_content"
+             android:layout_height="40dp"
+             android:textSize="15sp" 
+             android:text="返回"/>
+       
+         <Button 
+             android:id="@+id/forum_store_id"
+ 		     android:layout_width="23dp"
+             android:layout_height="23dp"
+             android:background="@drawable/forum_post_unstore" 
+             android:layout_alignParentRight="true"
+             android:layout_marginRight="13dp"
+             android:layout_marginTop="5dp"/>
+	    </RelativeLayout>
+	    
+    
+ 		 <ListView
+               android:id="@+id/forum_postdetail_id"
+               android:layout_below="@+id/forumlist_ll_id"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:divider="@drawable/fenge_xian"
+               android:cacheColorHint="#00000000"
+               android:fastScrollEnabled="false"
+               android:footerDividersEnabled="false"
+               android:headerDividersEnabled="false"
+               android:scrollbars="vertical" 
+               android:layout_marginBottom="50dp"/>
+ 		 
+ 		 
+ 		 <Button 
+ 		     android:id="@+id/forum_post_feedback_id"
+ 		     android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_alignParentBottom="true"
+              android:textColor="#232323"
+      		  android:textSize="20sp" 
+             android:text="回复帖子"/>
+ 		 
+</RelativeLayout>

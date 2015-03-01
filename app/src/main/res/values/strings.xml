@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">戒色助手</string>
+    <string name="openDrawerContentDescRes">open</string>
+    <string name="closeDrawerContentDescRes">close</string>
+    <string name="title_activity_pdfview">PDFViewActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_collect">收藏</string>
+    <string name="title_activity_dfdf">dfdf</string>
+    <string name="title_activity_article_detail">ArticleDetailActivity</string>
+    <string name="title_activity_doc_view">DocViewActivity</string>
+    <string name="title_activity_txt_view">TxtViewActivity</string>
+    <string name="username_hint">账号</string>
+    <string name="password_hint">密码</string>
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white" >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="28sp"
+        android:text="即将退出,敬请期待"
+        android:gravity="center"/>
+ 		 <ListView
+               android:id="@+id/forum_listView_id"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:layout_marginTop="2dp"
+               android:divider="@drawable/fenge_xian"
+               android:cacheColorHint="#00000000"
+               android:fastScrollEnabled="false"
+               android:footerDividersEnabled="false"
+               android:headerDividersEnabled="false"
+               android:scrollbars="vertical" />
+ 		 
+</LinearLayout>

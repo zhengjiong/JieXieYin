@@ -1,0 +1,136 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <!-- =========================JieXieYinTheme start =================================-->
+
+    下拉ActionBar樣式
+    <style name="Widget.Custom.PtrHeader" parent="android:Widget">
+        <item name="ptrHeaderBackground">@color/ptr_header_background</item>下拉ActionBar的背景顏色,不設置會默認和actionbar顏色一樣
+        <item name="ptrHeaderTitleTextAppearance">@style/TextAppearance.Custom.PtrHeader.Title</item>下拉ActionBar字體樣式
+        <item name="ptrProgressBarStyle">inside</item>
+        <item name="ptrProgressBarColor">#fff</item>下拉進度條的顏色
+
+        <item name="ptrPullText">下拉刷新...</item>
+        <item name="ptrRefreshingText">正在载入</item>
+        <item name="ptrReleaseText">Let go if you want me to refresh!</item>
+    </style>
+
+    <style name="TextAppearance.Custom.PtrHeader.Title" parent="android:TextAppearance.Large.Inverse">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="GNowProgressBar" parent="SmoothProgressBar">
+        <item name="spb_stroke_separator_length">8dp</item>
+        <item name="spb_sections_count">2</item>
+        <item name="spb_speed">1.7</item>
+        <item name="spb_progressiveStart_speed">2</item>
+        <item name="spb_progressiveStop_speed">3.4</item>
+        <item name="spb_interpolator">spb_interpolator_acceleratedecelerate</item>
+        <item name="spb_mirror_mode">true</item>
+        <item name="spb_reversed">true</item>
+        <item name="spb_colors">@array/gplus_colors</item>
+        <item name="spb_progressiveStart_activated">true</item>
+        <item name="spb_generate_background_with_colors">false</item>
+    </style>
+
+    <!--=============================ActionBarStyle  start===================================-->
+    <style name="GreenActionBar" parent="Widget.AppCompat.ActionBar">
+    <!--<style name="GreenActionBar" parent="android:Widget.ActionBar">-->
+        <!-- support library compatibility -->
+        <!--<item name="background">@drawable/ab_solid_c</item>-->
+        <item name="android:background">@color/actionbar_light_translucent</item>
+        <item name="android:titleTextStyle">@style/JieXieYinTheme.TitleTextStyle</item>
+        <item name="android:subtitleTextStyle">@style/JieXieYinTheme.SubTitleTextStyle</item>
+
+        <!--<item name="android:background">@color/green_google_play</item>-->
+        <!--<item name="android:background">@drawable/ab_solid_c</item>-->
+        <!--<item name="background">@color/actionbar_light_translucent</item>-->
+        <!--<item name="titleTextStyle">@style/JieXieYinTheme.TitleTextStyle</item>-->
+        <!--<item name="subtitleTextStyle">@style/JieXieYinTheme.SubTitleTextStyle</item>-->
+    </style>
+
+    <style name="JieXieYinTheme.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <!--<style name="JieXieYinTheme.TitleTextStyle" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">-->
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="JieXieYinTheme.SubTitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+    <!--<style name="JieXieYinTheme.SubTitleTextStyle" parent="android:TextAppearance.Holo.Widget.ActionBar.Subtitle">-->
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <!--===============================ActionBarStyle  end================================= -->
+
+    <style name="sliding_head_text">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+
+    <style name="ProgressBar.Horizontal" parent="@android:style/Widget.ProgressBar.Horizontal"></style>
+
+    <style name="personal_center_txt_title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/personal_center_title_txt_color</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="personal_center_txt_value">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/personal_center_value_txt_color</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+
+
+
+
+
+
+    <style name="Widget" />
+
+    <style name="Widget.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+    <!--<style name="Widget.ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">-->
+    </style>
+
+    <style name="Widget.Light" />
+
+    <style name="Widget.Light.ActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+    <!--<style name="Widget.Light.ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid">-->
+    </style>
+
+    <style name="Widget.ActionBar.Transparent">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="background">@android:color/transparent</item>
+    </style>
+
+    <style name="Widget.Light.ActionBar.Transparent">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="background">@android:color/transparent</item>
+    </style>
+
+    <style name="TranslucentActionBarStyle" parent ="@style/Widget.Light.ActionBar.Transparent">
+        <item name="android:titleTextStyle">@style/JieXieYinTheme.TitleTextStyle</item>
+        <item name="android:subtitleTextStyle">@style/JieXieYinTheme.SubTitleTextStyle</item>
+        <item name="android:height">@dimen/abc_action_bar_default_height</item>
+        <item name="android:background">@color/actionbar_light_translucent</item>
+
+        <!--<item name="titleTextStyle">@style/JieXieYinTheme.TitleTextStyle</item>
+        <item name="subtitleTextStyle">@style/JieXieYinTheme.SubTitleTextStyle</item>
+        <item name="android:height">@dimen/abc_action_bar_default_height</item>
+        <item name="background">@color/actionbar_light_translucent</item>-->
+        <!--<item name="android:background">@color/green_google_play</item>-->
+        <!--<item name="android:background">@drawable/ab_solid_c</item>-->
+    </style>
+    <style name="TranslucentActionBarStyle.MainActivity">
+    </style>
+</resources>

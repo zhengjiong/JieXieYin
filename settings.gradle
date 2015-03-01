@@ -1,0 +1,17 @@
+include ':app', ':KenBurnsView', ':android-pdfview', ':ActionBar-PullToRefresh-libraries'
+include ':libraries:cardslib'
+include ':libraries:Caldroid-master'
+include ':libraries:ActionBar-PullToRefresh-libraries'
+include ':libraries:circleimageview'
+include ':libraries:FadingActionBar-library'
+include ':libraries:PagerSlidingTabStrip-master'
+include ':libraries:KenBurnsView'
+//project(':SlidingMenu-master').projectDir = new File('libraries/SlidingMenu-master')
+//project(':Caldroid-master').projectDir = new File('libraries/Caldroid-master')
+//project(':ActionBar-PullToRefresh-libraries').projectDir = new File('libraries/ActionBar-PullToRefresh-libraries')
+//project(':circleimageview').projectDir = new File('libraries/circleimageview')
+//project(':FadingActionBar-library').projectDir = new File('libraries/FadingActionBar-library')
+//project(':').projectDir = new File('libraries/PagerSlidingTabStrip-master')
+//project(':KenBurnsView').projectDir = new File('libraries/KenBurnsView')
+project(':android-pdfview').projectDir = new File('libraries/android-pdfview')
+project(':ActionBar-PullToRefresh-libraries').projectDir = new File('libraries/ActionBar-PullToRefresh-libraries')

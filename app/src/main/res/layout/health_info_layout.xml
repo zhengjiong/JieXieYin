@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="#323232"
+            android:textSize="18sp"
+            android:text="健康资料"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#cccccc" />
+        <TextView
+            style="@style/personal_center_txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="血型" />
+
+        <TextView
+            style="@style/personal_center_txt_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="A型血" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e5e5e5" />
+
+        <TextView
+            style="@style/personal_center_txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="体重" />
+
+        <TextView
+            style="@style/personal_center_txt_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="70kg" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e5e5e5" />
+
+        <TextView
+            style="@style/personal_center_txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="身高" />
+
+        <TextView
+            style="@style/personal_center_txt_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="177cm" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e5e5e5" />
+
+        <TextView
+            style="@style/personal_center_txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="病史" />
+
+        <TextView
+            style="@style/personal_center_txt_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="无" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#e5e5e5" />
+
+        <TextView
+            style="@style/personal_center_txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="症状" />
+
+        <TextView
+            style="@style/personal_center_txt_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="腰酸背痛" />
+    </LinearLayout>
+</ScrollView>

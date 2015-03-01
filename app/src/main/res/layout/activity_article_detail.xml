@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    tools:context="org.namofo.ui.ArticleDetailActivity">
+
+
+    <TextView
+        style="@android:style/TextAppearance.Medium"
+        android:id="@+id/article_detail_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="none"
+        android:gravity="left|center"
+        android:lineSpacingExtra="5dp"
+        android:padding="15dp"
+        android:scrollHorizontally="false"
+        android:singleLine="false"/>
+</RelativeLayout>

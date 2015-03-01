@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sliding_menu"
+    android:layout_width="@dimen/navigation_layout_width"
+    android:layout_height="match_parent"
+    android:layout_gravity="left"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height"
+        android:background="@android:color/transparent"/>
+    <RelativeLayout
+        android:id="@+id/sliding_user_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/backgroud_user"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/sliding_img_avatar"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/ic_avatar" />
+
+        <TextView
+            android:id="@+id/sliding_txt_nologin"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_toRightOf="@id/sliding_img_avatar"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="10dp"
+            android:text="点击登录"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_toRightOf="@id/sliding_img_avatar"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/sliding_txt_username"
+                style="@style/sliding_head_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="zheng jiong"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/sliding_txt_checkcount"
+                style="@style/sliding_head_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="签到 10天"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/userDrawer"
+        android:layout_width="@dimen/navigation_layout_width"
+        android:layout_height="60dp"
+        android:background="@color/backgroud_user"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tituloDrawer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/ImgDrawer"
+            android:text="zhengjiong"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/subTituloDrawer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tituloDrawer"
+            android:layout_below="@+id/tituloDrawer"
+            android:text="zhengjiong@gmail.com"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/ImgDrawer"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_user" />
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/main_listview"
+        android:layout_width="@dimen/navigation_layout_width"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:choiceMode="singleChoice"
+        android:divider="@color/sliding_menu_list_divider"
+        android:dividerHeight="1dp"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="false"
+        android:scrollbarStyle="outsideOverlay"/>
+</LinearLayout>

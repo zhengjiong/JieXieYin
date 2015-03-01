@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="JieXieYinTheme" parent="Theme.AppCompat.Light">
+    <!--<style name="JieXieYinTheme" parent="android:Theme.Light">-->
+        <!-- ActionBar Item 點擊效果 -->
+        <item name="android:actionBarItemBackground">@drawable/actionbat_item_selector</item>
+        <item name="android:actionBarStyle">@style/GreenActionBar</item>ActionBar樣式
+        <item name="android:homeAsUpIndicator">@drawable/abc_ic_ab_back_holo_dark</item>返回按鈕
+
+        <!--<item name="actionBarItemBackground">@drawable/actionbat_item_selector</item>-->
+        <!--<item name="actionBarStyle">@style/GreenActionBar</item>ActionBar樣式-->
+    </style>
+
+    <style name="JieXieYinTheme.CustomPtrHeader" parent="Theme.AppCompat.Light">
+    <!--<style name="JieXieYinTheme.CustomPtrHeader" parent="android:Theme.Light">-->
+        <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>下拉ActionBar的背景顏色
+        <item name="spbStyle">@style/GNowProgressBar</item>SmoothProgressBar樣式
+    </style>
+
+    <style name="JieXieYinTheme.TranslucentActionBar">
+        <item name="android:actionBarStyle">@style/TranslucentActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="JieXieYinTheme.TranslucentActionBar.MainActivity">
+        <item name="android:actionBarStyle">@style/TranslucentActionBarStyle.MainActivity</item>ActionBar樣式
+    </style>
+
+</resources>

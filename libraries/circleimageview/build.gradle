@@ -1,0 +1,17 @@
+apply plugin: 'com.android.library'
+android {
+    compileSdkVersion 20
+    buildToolsVersion '20.0.0'
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 20
+    }
+    productFlavors {
+    }
+    buildTypes {
+    }
+}
+//apply from: 'https://raw.github.com/hdodenhof/gradle-mvn-push/master/gradle-mvn-push.gradle'
+
+dependencies {
+}
