@@ -5,7 +5,9 @@
 .DS_Store
 /build
 app/src/main/assets/*
-
+app/src/main/assets
+/app/src/main/assets/*
+/app/src/main/assets
 
 # Built application files
 *.apk
