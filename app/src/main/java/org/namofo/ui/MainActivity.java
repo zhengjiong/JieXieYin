@@ -12,7 +12,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,17 +22,25 @@ import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.google.common.base.Strings;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.namofo.R;
 import org.namofo.adapter.SlidingListviewAdapter;
+import org.namofo.app.AppConfig;
 import org.namofo.app.AppContext;
+import org.namofo.bean.User;
+import org.namofo.constants.Constants;
 import org.namofo.fragment.CheckInFragment;
 import org.namofo.fragment.ForumFragment;
 import org.namofo.fragment.HomepageFragment;
@@ -38,6 +48,7 @@ import org.namofo.fragment.MengYiRecordFragment;
 import org.namofo.fragment.MyCenterFragment;
 import org.namofo.fragment.PoJieRecordFragment;
 import org.namofo.fragment.TopListFragment;
+import org.namofo.util.PreferencesUtils;
 import org.namofo.util.ToastUtils;
 
 import java.lang.reflect.Field;
@@ -55,12 +66,14 @@ public class MainActivity extends BaseActivity implements OnClickListener{
     public int actionBarAlpha;
 	
 	private DrawerLayout mDrawerLayout;
-	
+
+    private AlertDialog mLoginDialog;
 	private ListView mListView;
 	
 	private View mSlidingMenu;
-	
 	private View mSlidingUserWrapper;
+
+    private TextView mTxtLogin;
 	
 	private int mCurrentPosition;
 	
@@ -110,8 +123,9 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 		mListView = (ListView) findViewById(R.id.main_listview);
 		mSlidingMenu = findViewById(R.id.sliding_menu);
 		mSlidingUserWrapper = findViewById(R.id.sliding_user_wrapper);
-		
-		mColumns = getResources().getStringArray(R.array.columns);
+        mTxtLogin = (TextView) findViewById(R.id.sliding_txt_login);
+
+        mColumns = getResources().getStringArray(R.array.columns);
         initActionBar2();
 		getSupportActionBar().setTitle(mColumns[0]);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -307,11 +321,16 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 	
 	@Override
 	protected void initData() {
-		mSlidingListviewAdapter = new SlidingListviewAdapter(this, mColumns, mIconRes);
-		mListView.setAdapter(mSlidingListviewAdapter);
-	}
-	
-	@Override
+        String uid = PreferencesUtils.getString(this, "uid", null);
+        if (uid != null && uid.length() == 0) {//已經登錄過
+            mTxtLogin.setText(PreferencesUtils.getString(this, "username", ""));
+            mSlidingUserWrapper.setEnabled(false);
+        }
+        mSlidingListviewAdapter = new SlidingListviewAdapter(this, mColumns, mIconRes);
+        mListView.setAdapter(mSlidingListviewAdapter);
+    }
+
+    @Override
 	protected void initListener() {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		mListView.setOnItemClickListener(new SlidingMenuItemListener());
@@ -322,8 +341,8 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-			/*if (position == 0) {
-				getSupportActionBar().setDisplayShowTitleEnabled(false);
+            /*if (position == 0) {
+                getSupportActionBar().setDisplayShowTitleEnabled(false);
 				ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(
 						MainActivity.this, 
 						R.array.post_category, 
@@ -335,8 +354,16 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 				getSupportActionBar().setDisplayShowTitleEnabled(true);
 				getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 			}*/
+
+            //如果沒有登錄,就先彈出登錄窗口
+            if (!AppConfig.isLogin(MainActivity.this)) {
+                showLoginDialog();
+                mDrawerLayout.closeDrawer(mSlidingMenu);//关闭侧滑菜单
+                return;
+            }
+
             //設置actionbar標題
-			getActionBar().setTitle(mColumns[position]);
+            getActionBar().setTitle(mColumns[position]);
 
             if (position != 0) {
                 /**
@@ -350,10 +377,10 @@ public class MainActivity extends BaseActivity implements OnClickListener{
                 getActionBar().setBackgroundDrawable(actionBarBackgroundDrawable);
             }
 
-			selectItem(position);
-		}
-		
-	}
+            selectItem(position);
+        }
+
+    }
 
     @Override
 	public void onClick(View view){
@@ -378,34 +405,124 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 		}
 	}
 
-    private void showLoginDialog(){
-        new AlertDialog.Builder(MainActivity.this)
-            .setTitle("用户登录")
-            .setView(getLayoutInflater().inflate(R.layout.login_layout, null))
-            .setNegativeButton("取消", null)
-            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+    private void showLoginDialog() {
+        final View loginLayout = LayoutInflater.from(this).inflate(R.layout.login_layout, null);
+        mLoginDialog = new AlertDialog.Builder(MainActivity.this)
+                .setMessage("用户登录")
+                .setView(loginLayout)
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
-                    RequestParams params = new RequestParams();
-                    params.addBodyParameter("userName", "郑炯");
-                    params.addBodyParameter("password", "123456789");
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        EditText txtUsername = (EditText) loginLayout.findViewById(R.id.username);
+                        EditText txtPassword = (EditText) loginLayout.findViewById(R.id.password);
 
-                    AppContext.getInstance().getHttpUtils().send(HttpRequest.HttpMethod.POST, "http://app.namofo.org/app.do", params, new RequestCallBack<Object>() {
-                        @Override
-                        public void onSuccess(ResponseInfo<Object> info) {
-                            int code = info.statusCode;
-                            String result = info.result.toString();
-                            Log.i("zj", "code = " + code);
+                        final String username = txtUsername.getText().toString().trim();
+                        String password = txtPassword.getText().toString().trim();
+
+                        if (TextUtils.isEmpty(username)) {
+                            ToastUtils.show(MainActivity.this, "请填写用户名");
+                            setCloseAble(mLoginDialog, false);
+                            return;
                         }
-
-                        @Override
-                        public void onFailure(HttpException e, String error) {
-                            Log.i("zj", "error=" + error);
+                        if (TextUtils.isEmpty(password)) {
+                            ToastUtils.show(MainActivity.this, "请填写密码");
+                            setCloseAble(mLoginDialog, false);
+                            return;
                         }
-                    });
-                }
-            }).show();
+                        setCloseAble(mLoginDialog, true);
+                        RequestParams params = new RequestParams();
+                        params.addBodyParameter("control", "userlogin");
+                        params.addBodyParameter("userName", username);
+                        params.addBodyParameter("password", password);
+
+                        AppContext.getInstance().getHttpUtils().send(HttpRequest.HttpMethod.POST, Constants.HOST_URL, params, new RequestCallBack<Object>() {
+                            /**
+                             {
+                             "uid": "735",
+                             "maxSignDays": "1",
+                             "continueDays": "1",
+                             "userinfo": {
+                                 "xuexin": "A",
+                                 "tizhong": "",
+                                 "shengao": "",
+                                 "bingshi": "",
+                                 "zhengzhuang": "",
+                                 "sex": "",
+                                 "age": "",
+                                 "xueli": "",
+                                 "aihao": "",
+                                 "techang": "",
+                                 "yy": "",
+                                 "qq": "12345645"
+                                 }
+                             }
+                             {"error":"0","info":"用户名密码不正确！"}
+                             */
+                            @Override
+                            public void onSuccess(ResponseInfo<Object> info) {
+                                int code = info.statusCode;
+                                String result = info.result.toString();
+                                if (Strings.isNullOrEmpty(result)) {
+                                    ToastUtils.show(MainActivity.this, R.string.error_server);
+                                    return;
+                                }
+                                try {
+                                    JSONObject jsonResult = new JSONObject(result);
+                                    if (jsonResult.has("error")) {
+                                        ToastUtils.show(MainActivity.this, jsonResult.getString("info"));
+                                    } else {
+                                        User user = User.json2Obj(result);
+                                        user.getUserInfo().setUsername(username);
+                                        saveUserToSharePreferences(user);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    ToastUtils.show(MainActivity.this, R.string.error_json);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(HttpException e, String error) {
+                                ToastUtils.show(MainActivity.this, R.string.error_server);
+                            }
+                        });
+                    }
+                }).create();
+        mLoginDialog.setCanceledOnTouchOutside(false);
+        mLoginDialog.show();
+    }
+
+    private void setCloseAble(AlertDialog dialog, boolean closeAble){
+        try {
+            Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+            field.setAccessible(true);
+            field.setBoolean(dialog, closeAble);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveUserToSharePreferences(User user) {
+        PreferencesUtils.putString(this, "uid", user.getUid());
+        PreferencesUtils.putString(this, "username", user.getUserInfo().getUsername());
+        PreferencesUtils.putString(this, "maxSignDays", user.getMaxSignDays());
+        PreferencesUtils.putString(this, "continueDays", user.getContinueDays());
+        PreferencesUtils.putString(this, "xuexin", user.getUserInfo().getXuexin());
+        PreferencesUtils.putString(this, "tizhong", user.getUserInfo().getTizhong());
+        PreferencesUtils.putString(this, "shengao", user.getUserInfo().getShengao());
+        PreferencesUtils.putString(this, "bingshi", user.getUserInfo().getBingshi());
+        PreferencesUtils.putString(this, "zhengzhuang", user.getUserInfo().getZhengzhuang());
+        PreferencesUtils.putString(this, "sex", user.getUserInfo().getSex());
+        PreferencesUtils.putString(this, "age", user.getUserInfo().getAge());
+        PreferencesUtils.putString(this, "xueli", user.getUserInfo().getXueli());
+        PreferencesUtils.putString(this, "aihao", user.getUserInfo().getAihao());
+        PreferencesUtils.putString(this, "techang", user.getUserInfo().getTechang());
+        PreferencesUtils.putString(this, "yy", user.getUserInfo().getYy());
+        PreferencesUtils.putString(this, "qq", user.getUserInfo().getQq());
     }
 
     public HomepageFragment getHomePageFragment(){

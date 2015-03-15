@@ -31,6 +31,14 @@ public class AppContext extends Application{
 
     private HttpUtils mHttpUtils;
 
+    public static AppContext getInstance() {
+        return mAppContext;
+    }
+
+    public HttpUtils getHttpUtils() {
+        return mHttpUtils;
+    }
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -102,13 +110,5 @@ public class AppContext extends Application{
 		
 		return articleDBService;
 	}
-	
-	public static AppContext getInstance() {
-		return mAppContext;
-	}
-
-    public HttpUtils getHttpUtils() {
-        return mHttpUtils;
-    }
 
 }

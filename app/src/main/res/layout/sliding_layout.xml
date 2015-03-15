@@ -25,7 +25,7 @@
             android:background="@drawable/ic_avatar" />
 
         <TextView
-            android:id="@+id/sliding_txt_nologin"
+            android:id="@+id/sliding_txt_login"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_toRightOf="@id/sliding_img_avatar"

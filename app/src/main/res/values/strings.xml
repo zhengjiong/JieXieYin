@@ -14,4 +14,6 @@
     <string name="title_activity_txt_view">TxtViewActivity</string>
     <string name="username_hint">账号</string>
     <string name="password_hint">密码</string>
+    <string name="error_server">服务器忙请稍后</string>
+    <string name="error_json">json解析错误</string>
 </resources>
