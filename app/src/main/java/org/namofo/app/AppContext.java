@@ -2,8 +2,12 @@ package org.namofo.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.lidroid.xutils.HttpUtils;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.namofo.constants.Constants;
 import org.namofo.sqlite.dao.DaoMaster;
@@ -31,6 +35,8 @@ public class AppContext extends Application{
 
     private HttpUtils mHttpUtils;
 
+    private static ImageLoader mImageLoader;
+
     public static AppContext getInstance() {
         return mAppContext;
     }
@@ -45,14 +51,24 @@ public class AppContext extends Application{
 		mAppContext = this;
         mHttpUtils = new HttpUtils();
 
+        initImageLoader();
+
         try {
 			DBUtil.copyDataBase(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
+
+    /**
+     * 初始化ImageLoader
+     */
+    private void initImageLoader() {
+        mImageLoader = ImageLoader.getInstance();
+        mImageLoader.init(ImageLoaderConfiguration.createDefault(this));
+    }
+
+    /**
 	 * 獲取DaoMaster
 	 * @param context
 	 * @return DaoMaster
@@ -111,4 +127,25 @@ public class AppContext extends Application{
 		return articleDBService;
 	}
 
+
+    /**
+     * 显示图片的配置
+     * @param defaultImgResId
+     * @return
+     */
+    public static DisplayImageOptions getImageOptions(int defaultImgResId){
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(defaultImgResId)
+                .showImageOnLoading(defaultImgResId)
+                .showImageOnFail(defaultImgResId)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .bitmapConfig(Bitmap.Config.RGB_565).build();
+
+        return options;
+    }
+
+    public static ImageLoader getmImageLoader() {
+        return mImageLoader;
+    }
 }

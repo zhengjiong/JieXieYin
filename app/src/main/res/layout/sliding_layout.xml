@@ -31,9 +31,11 @@
             android:layout_toRightOf="@id/sliding_img_avatar"
             android:gravity="left|center_vertical"
             android:paddingLeft="10dp"
-            android:text="点击登录"
             android:textColor="@android:color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:text="点击登录"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

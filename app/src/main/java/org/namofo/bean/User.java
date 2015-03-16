@@ -33,6 +33,7 @@ public class User {
     private String uid;
     private String maxSignDays;//最大簽到天數
     private String continueDays;//當前簽到天數
+    private String headImg;
     private UserInfo userinfo = new UserInfo();
 
     public static class UserInfo{
@@ -169,6 +170,22 @@ public class User {
 
     public void setMaxSignDays(String maxSignDays) {
         this.maxSignDays = maxSignDays;
+    }
+
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
+    }
+
+    public UserInfo getUserinfo() {
+        return userinfo;
+    }
+
+    public void setUserinfo(UserInfo userinfo) {
+        this.userinfo = userinfo;
     }
 
     public String getContinueDays() {

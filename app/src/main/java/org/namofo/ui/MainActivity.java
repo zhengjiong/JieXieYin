@@ -23,6 +23,7 @@ import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -72,6 +73,7 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 	
 	private View mSlidingMenu;
 	private View mSlidingUserWrapper;
+    private ImageView mImgUserHeader;
 
     private TextView mTxtLogin;
 	
@@ -123,6 +125,7 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 		mListView = (ListView) findViewById(R.id.main_listview);
 		mSlidingMenu = findViewById(R.id.sliding_menu);
 		mSlidingUserWrapper = findViewById(R.id.sliding_user_wrapper);
+        mImgUserHeader = (ImageView) findViewById(R.id.sliding_img_avatar);
         mTxtLogin = (TextView) findViewById(R.id.sliding_txt_login);
 
         mColumns = getResources().getStringArray(R.array.columns);
@@ -322,9 +325,21 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 	@Override
 	protected void initData() {
         String uid = PreferencesUtils.getString(this, "uid", null);
-        if (uid != null && uid.length() == 0) {//已經登錄過
-            mTxtLogin.setText(PreferencesUtils.getString(this, "username", ""));
-            mSlidingUserWrapper.setEnabled(false);
+        if (!Strings.isNullOrEmpty(uid)) {//已經登錄過
+            mTxtLogin.setText(PreferencesUtils.getString(this, "username", ""));//drawer中設置用戶名
+            mSlidingUserWrapper.setEnabled(false);//屏蔽登錄按鈕的點擊事件
+
+            /**
+             * 顯示用戶頭像
+             */
+            String imgUrl = PreferencesUtils.getString(this, "headImg", null);
+            if (!Strings.isNullOrEmpty(imgUrl)) {
+
+                AppContext.getmImageLoader().displayImage(
+                        imgUrl,
+                        mImgUserHeader,
+                        AppContext.getImageOptions(R.drawable.ic_avatar));
+            }
         }
         mSlidingListviewAdapter = new SlidingListviewAdapter(this, mColumns, mIconRes);
         mListView.setAdapter(mSlidingListviewAdapter);
@@ -385,7 +400,7 @@ public class MainActivity extends BaseActivity implements OnClickListener{
     @Override
 	public void onClick(View view){
 		switch (view.getId()) {
-		case R.id.sliding_user_wrapper:
+		case R.id.sliding_user_wrapper://點擊登錄
 			mDrawerLayout.closeDrawer(mSlidingMenu);
 			
 			//如果沒有登錄就跳到登錄界面
@@ -476,6 +491,14 @@ public class MainActivity extends BaseActivity implements OnClickListener{
                                         User user = User.json2Obj(result);
                                         user.getUserInfo().setUsername(username);
                                         saveUserToSharePreferences(user);
+
+                                        if (!Strings.isNullOrEmpty(user.getHeadImg())) {
+                                            //顯示用戶頭像
+                                            AppContext.getmImageLoader().displayImage(
+                                                    user.getHeadImg(),
+                                                    mImgUserHeader,
+                                                    AppContext.getImageOptions(R.drawable.ic_avatar));
+                                        }
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -506,8 +529,13 @@ public class MainActivity extends BaseActivity implements OnClickListener{
         }
     }
 
+    /**
+     * 保存用戶登錄數據
+     * @param user
+     */
     private void saveUserToSharePreferences(User user) {
         PreferencesUtils.putString(this, "uid", user.getUid());
+        PreferencesUtils.putString(this, "headImg", user.getHeadImg());
         PreferencesUtils.putString(this, "username", user.getUserInfo().getUsername());
         PreferencesUtils.putString(this, "maxSignDays", user.getMaxSignDays());
         PreferencesUtils.putString(this, "continueDays", user.getContinueDays());
