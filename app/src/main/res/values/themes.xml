@@ -20,7 +20,7 @@
     <style name="JieXieYinTheme.TranslucentActionBar">
         <item name="android:actionBarStyle">@style/TranslucentActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowContentOverlay">@null</item>ActionBar下面加上陰影
     </style>
 
     <style name="JieXieYinTheme.TranslucentActionBar.MainActivity">
