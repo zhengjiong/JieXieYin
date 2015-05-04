@@ -15,6 +15,7 @@ public class ProgressDialogUtils {
     public static void show(Context context, String message){
         if (mProgressDialog == null){
             mProgressDialog = new ProgressDialog(context, ProgressDialog.THEME_DEVICE_DEFAULT_DARK);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         }
         mProgressDialog.setMessage(message);
 

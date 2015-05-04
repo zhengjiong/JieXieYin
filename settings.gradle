@@ -1,4 +1,4 @@
-include ':app', ':KenBurnsView', ':android-pdfview', ':ActionBar-PullToRefresh-libraries'
+include ':app', ':android-pdfview', ':ActionBar-PullToRefresh-libraries', ':android-support-v4-preferencefragment-master'
 include ':libraries:cardslib'
 include ':libraries:Caldroid-master'
 include ':libraries:ActionBar-PullToRefresh-libraries'
@@ -15,3 +15,4 @@ include ':libraries:KenBurnsView'
 //project(':KenBurnsView').projectDir = new File('libraries/KenBurnsView')
 project(':android-pdfview').projectDir = new File('libraries/android-pdfview')
 project(':ActionBar-PullToRefresh-libraries').projectDir = new File('libraries/ActionBar-PullToRefresh-libraries')
+project(':android-support-v4-preferencefragment-master').projectDir = new File('libraries/android-support-v4-preferencefragment-master')

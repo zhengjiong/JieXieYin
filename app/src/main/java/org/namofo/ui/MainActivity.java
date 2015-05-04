@@ -49,7 +49,9 @@ import org.namofo.fragment.MengYiRecordFragment;
 import org.namofo.fragment.MyCenterFragment;
 import org.namofo.fragment.PoJieRecordFragment;
 import org.namofo.fragment.TopListFragment;
+import org.namofo.util.KeyboardUtils;
 import org.namofo.util.PreferencesUtils;
+import org.namofo.util.ProgressDialogUtils;
 import org.namofo.util.ToastUtils;
 
 import java.lang.reflect.Field;
@@ -206,7 +208,7 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 		transaction.commit();
 
         mListView.setItemChecked(position, true);
-        mDrawerLayout.closeDrawer(mSlidingMenu);//关闭侧滑菜单
+		closeDrawer();
     }
 
 	@Override
@@ -311,12 +313,12 @@ public class MainActivity extends BaseActivity implements OnClickListener{
         //mFragments.add(new FadingActionBarTestFragment());
 
         try {//显示出overflow Button
-			ViewConfiguration mconfig = ViewConfiguration.get(this);
+			ViewConfiguration config = ViewConfiguration.get(this);
 			Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
 			
 			if (menuKeyField != null) {
 				menuKeyField.setAccessible(true);
-				menuKeyField.setBoolean(mconfig, false);
+				menuKeyField.setBoolean(config, false);
 			}
 		} catch (Exception ex) {}
 		
@@ -324,8 +326,14 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 	
 	@Override
 	protected void initData() {
-        String uid = PreferencesUtils.getString(this, "uid", null);
-        if (!Strings.isNullOrEmpty(uid)) {//已經登錄過
+        mSlidingListviewAdapter = new SlidingListviewAdapter(this, mColumns, mIconRes);
+		mListView.setAdapter(mSlidingListviewAdapter);
+		setUserInfo();
+	}
+
+	private void setUserInfo() {
+		String uid = PreferencesUtils.getString(this, "uid", null);
+		if (!Strings.isNullOrEmpty(uid)) {//已經登錄過
             mTxtLogin.setText(PreferencesUtils.getString(this, "username", ""));//drawer中設置用戶名
             mSlidingUserWrapper.setEnabled(false);//屏蔽登錄按鈕的點擊事件
 
@@ -341,11 +349,9 @@ public class MainActivity extends BaseActivity implements OnClickListener{
                         AppContext.getImageOptions(R.drawable.ic_avatar));
             }
         }
-        mSlidingListviewAdapter = new SlidingListviewAdapter(this, mColumns, mIconRes);
-        mListView.setAdapter(mSlidingListviewAdapter);
-    }
+	}
 
-    @Override
+	@Override
 	protected void initListener() {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 		mListView.setOnItemClickListener(new SlidingMenuItemListener());
@@ -420,6 +426,9 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 		}
 	}
 
+	/**
+	 * 顯示登錄對話框
+	 */
     private void showLoginDialog() {
         final View loginLayout = LayoutInflater.from(this).inflate(R.layout.login_layout, null);
         mLoginDialog = new AlertDialog.Builder(MainActivity.this)
@@ -430,6 +439,9 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
+						ProgressDialogUtils.show(MainActivity.this, getString(R.string.login_dialog_processing));
+						KeyboardUtils.hideKeyBroad(MainActivity.this);
+
                         EditText txtUsername = (EditText) loginLayout.findViewById(R.id.username);
                         EditText txtPassword = (EditText) loginLayout.findViewById(R.id.password);
 
@@ -439,11 +451,13 @@ public class MainActivity extends BaseActivity implements OnClickListener{
                         if (TextUtils.isEmpty(username)) {
                             ToastUtils.show(MainActivity.this, "请填写用户名");
                             setCloseAble(mLoginDialog, false);
+							ProgressDialogUtils.hide();
                             return;
                         }
                         if (TextUtils.isEmpty(password)) {
                             ToastUtils.show(MainActivity.this, "请填写密码");
                             setCloseAble(mLoginDialog, false);
+							ProgressDialogUtils.hide();
                             return;
                         }
                         setCloseAble(mLoginDialog, true);
@@ -452,6 +466,9 @@ public class MainActivity extends BaseActivity implements OnClickListener{
                         params.addBodyParameter("userName", username);
                         params.addBodyParameter("password", password);
 
+						/**
+						 * 用戶登錄
+						 */
                         AppContext.getInstance().getHttpUtils().send(HttpRequest.HttpMethod.POST, Constants.HOST_URL, params, new RequestCallBack<Object>() {
                             /**
                              {
@@ -477,6 +494,7 @@ public class MainActivity extends BaseActivity implements OnClickListener{
                              */
                             @Override
                             public void onSuccess(ResponseInfo<Object> info) {
+								ProgressDialogUtils.hide();
                                 int code = info.statusCode;
                                 String result = info.result.toString();
                                 if (Strings.isNullOrEmpty(result)) {
@@ -499,6 +517,8 @@ public class MainActivity extends BaseActivity implements OnClickListener{
                                                     mImgUserHeader,
                                                     AppContext.getImageOptions(R.drawable.ic_avatar));
                                         }
+										ToastUtils.show(MainActivity.this, R.string.login_success);
+										setUserInfo();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -509,6 +529,7 @@ public class MainActivity extends BaseActivity implements OnClickListener{
                             @Override
                             public void onFailure(HttpException e, String error) {
                                 ToastUtils.show(MainActivity.this, R.string.error_server);
+								ProgressDialogUtils.hide();
                             }
                         });
                     }
@@ -517,6 +538,11 @@ public class MainActivity extends BaseActivity implements OnClickListener{
         mLoginDialog.show();
     }
 
+	/**
+	 * 設置是否可以關閉dialog
+	 * @param dialog
+	 * @param closeAble
+	 */
     private void setCloseAble(AlertDialog dialog, boolean closeAble){
         try {
             Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
@@ -556,4 +582,20 @@ public class MainActivity extends BaseActivity implements OnClickListener{
     public HomepageFragment getHomePageFragment(){
         return (HomepageFragment) mFragments.get(0);
     }
+
+	/**
+	 * 关闭侧滑菜单
+ 	 */
+	public void closeDrawer(){
+		mDrawerLayout.closeDrawers();
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (mDrawerLayout.isDrawerOpen(mSlidingMenu)) {
+			closeDrawer();
+		} else {
+			super.onBackPressed();
+		}
+	}
 }

@@ -7,11 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.common.base.Strings;
 
 import org.namofo.R;
+import org.namofo.app.AppContext;
 import org.namofo.ui.BasicInfoActivity;
 import org.namofo.ui.CommunicationInfoActivity;
 import org.namofo.ui.HealthInfoActivity;
+import org.namofo.util.PreferencesUtils;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 个人中心
@@ -28,6 +35,12 @@ public class MyCenterFragment extends BaseFragment{
     private ImageView mImgCommunicationInfo;
     private ImageView mImgHealthInfo;
 
+    private TextView mTxtUsername;
+    private TextView mTxtCheckinNum;
+    private TextView mTxtCheckinDayNum;
+    private TextView mTxtCheckinMaxDayNum;
+    private CircleImageView mImgAvatar;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
@@ -39,18 +52,47 @@ public class MyCenterFragment extends BaseFragment{
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		debug("onViewCreated");
-		
+
+        setHasOptionsMenu(true);
+
 		initView();
 		initVariable();
         initListener();
+        setView();
     }
-	
-	@Override
+
+    private void setView() {
+        String checkinDayNum = PreferencesUtils.getString(mActivity, "continueDays", "0");
+        String maxCheckinDayNum = PreferencesUtils.getString(mActivity, "maxSignDays", "0");
+        String username = PreferencesUtils.getString(mActivity, "username", "");
+        String imgUrl = PreferencesUtils.getString(mActivity, "headImg", "");
+
+        mTxtUsername.setText(username);
+        mTxtCheckinNum.setText(checkinDayNum);
+        mTxtCheckinDayNum.setText(getString(R.string.checkin_day_num, checkinDayNum));
+        mTxtCheckinMaxDayNum.setText(getString(R.string.max_checkin_day_num, maxCheckinDayNum));
+
+        if (!Strings.isNullOrEmpty(imgUrl)) {
+
+            AppContext.getmImageLoader().displayImage(
+                    imgUrl,
+                    mImgAvatar,
+                    AppContext.getImageOptions(R.drawable.title_profile));
+        }
+
+    }
+
+    @Override
 	protected void initView() {
         // TODO Auto-generated method stub
         mImgBasicInfo = (ImageView) mRootView.findViewById(R.id.img_basic_info);
         mImgCommunicationInfo = (ImageView) mRootView.findViewById(R.id.img_communication_info);
         mImgHealthInfo = (ImageView) mRootView.findViewById(R.id.img_health_info);
+        mImgAvatar = (CircleImageView) mRootView.findViewById(R.id.txt_user_avatar);
+        mTxtUsername = (TextView) mRootView.findViewById(R.id.txt_user_name);
+        mTxtCheckinNum = (TextView) mRootView.findViewById(R.id.txt_user_checkin_num);
+        mTxtCheckinDayNum = (TextView) mRootView.findViewById(R.id.txt_checkin_day_num);
+        mTxtCheckinMaxDayNum = (TextView) mRootView.findViewById(R.id.txt_max_checkin_day_num);
     }
 
 	@Override

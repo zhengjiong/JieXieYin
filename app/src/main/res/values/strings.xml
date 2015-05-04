@@ -16,4 +16,10 @@
     <string name="password_hint">密码</string>
     <string name="error_server">服务器忙请稍后</string>
     <string name="error_json">json解析错误</string>
+    <string name="login_dialog_processing">登录中...</string>
+    <string name="login_success">登录成功</string>
+    <string name="processing">操作中...</string>
+
+    <string name="max_checkin_day_num">最长戒色天数:%s天"</string>
+    <string name="checkin_day_num">持续戒色天数:%s天"</string>
 </resources>

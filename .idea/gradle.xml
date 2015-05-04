@@ -9,7 +9,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/KenBurnsView" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/libraries" />
             <option value="$PROJECT_DIR$/libraries/ActionBar-PullToRefresh-libraries" />
@@ -18,6 +17,7 @@
             <option value="$PROJECT_DIR$/libraries/KenBurnsView" />
             <option value="$PROJECT_DIR$/libraries/PagerSlidingTabStrip-master" />
             <option value="$PROJECT_DIR$/libraries/android-pdfview" />
+            <option value="$PROJECT_DIR$/libraries/android-support-v4-preferencefragment-master" />
             <option value="$PROJECT_DIR$/libraries/cardslib" />
             <option value="$PROJECT_DIR$/libraries/circleimageview" />
           </set>

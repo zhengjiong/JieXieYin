@@ -33,7 +33,7 @@ public class User {
     private String uid;
     private String maxSignDays;//最大簽到天數
     private String continueDays;//當前簽到天數
-    private String headImg;
+    private String headImg;     //用戶頭像
     private UserInfo userinfo = new UserInfo();
 
     public static class UserInfo{

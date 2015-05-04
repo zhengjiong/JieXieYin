@@ -103,7 +103,8 @@
     <orderEntry type="module" module-name="FadingActionBar-library" exported="" />
     <orderEntry type="module" module-name="Caldroid-master" exported="" />
     <orderEntry type="module" module-name="android-pdfview" exported="" />
-    <orderEntry type="module" module-name="libraries-KenBurnsView" exported="" />
+    <orderEntry type="module" module-name="KenBurnsView" exported="" />
+    <orderEntry type="module" module-name="android-support-v4-preferencefragment-master" exported="" />
     <orderEntry type="module" module-name="cardslib" exported="" />
     <orderEntry type="module" module-name="libraries-ActionBar-PullToRefresh-libraries" exported="" />
     <orderEntry type="module" module-name="PagerSlidingTabStrip-master" exported="" />
