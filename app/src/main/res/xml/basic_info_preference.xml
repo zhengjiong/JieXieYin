@@ -4,23 +4,38 @@
     <PreferenceCategory
         android:title="基本信息"
     >
-        <EditTextPreference
-            android:key="edit_nickname"
-            android:title="昵称"
-            android:summary="无"
-            android:dialogTitle="设置昵称"
-        />
-        <EditTextPreference
-            android:key="edit_nickname"
+        <ListPreference
+            android:key="sex"
             android:title="性别"
-            android:summary="无"
             android:dialogTitle="设置性别"
-            />
+            android:summary="无"
+            android:entries="@array/sex_items"
+            android:entryValues="@array/sex_items"
+        />
+        <!--不能設置android:dialogMessage="性别",不然item會顯示不出來-->
         <EditTextPreference
-            android:key="edit_nickname"
+            android:key="age"
             android:title="年龄"
             android:summary="无"
             android:dialogTitle="设置年龄"
+            />
+        <EditTextPreference
+            android:key="xueli"
+            android:title="学历"
+            android:summary="无"
+            android:dialogTitle="设置学历"
+            />
+        <EditTextPreference
+            android:key="aihao"
+            android:title="爱好"
+            android:summary="无"
+            android:dialogTitle="设置爱好"
+            />
+        <EditTextPreference
+            android:key="techang"
+            android:title="特长"
+            android:summary="无"
+            android:dialogTitle="设置特长"
             />
     </PreferenceCategory>
 

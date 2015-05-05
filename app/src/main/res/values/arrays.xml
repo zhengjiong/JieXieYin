@@ -16,4 +16,9 @@
         <item>飞翔语录</item>
         <item>微信文章</item>
     </string-array>
+
+    <string-array name="sex_items">
+        <item>男</item>
+        <item>女</item>
+    </string-array>
 </resources>

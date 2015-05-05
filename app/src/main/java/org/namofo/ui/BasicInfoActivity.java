@@ -1,8 +1,10 @@
 package org.namofo.ui;
 
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.PreferenceFragment;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.namofo.R;
 
@@ -24,18 +26,6 @@ public class BasicInfoActivity extends BaseActivity{
                 .add(R.id.replace_holder, new BasicInfoFragment())
                 .commit();
 
-        initVariable();
-        initView();
-        initData();
-        initListener();
-    }
-
-    public static class BasicInfoFragment extends PreferenceFragment{
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.basic_info_preference);
-        }
     }
 
     @Override
@@ -46,17 +36,14 @@ public class BasicInfoActivity extends BaseActivity{
 
     @Override
     protected void initVariable() {
-
     }
 
     @Override
     protected void initData() {
-
     }
 
     @Override
     protected void initListener() {
-
     }
 
     @Override
@@ -75,5 +62,20 @@ public class BasicInfoActivity extends BaseActivity{
         overridePendingTransition(R.anim.scale_enter_anim, R.anim.translate_exit_anim);
     }
 
+    public static class BasicInfoFragment extends PreferenceFragment{
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            getPreferenceManager().setSharedPreferencesName("JieXieYin");
+            addPreferencesFromResource(R.xml.basic_info_preference);
+        }
 
+        @Override
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+
+            ListPreference sexPreference = (ListPreference) findPreference("sex");
+
+        }
+    }
 }
