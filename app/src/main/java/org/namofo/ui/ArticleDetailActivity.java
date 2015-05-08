@@ -70,7 +70,7 @@ public class ArticleDetailActivity extends BaseActivity {
 
 
         mActionBar = helper.getActionBar(this);
-        initHomeAndBackButton();
+        initActionBarShowLogo();
 
         setActionBarTitle(mArticle.getTitle());
     }

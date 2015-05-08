@@ -24,7 +24,7 @@ public abstract class BaseActivity extends ActionBarActivity {
 	protected abstract void initData();//初始化數據
 	protected abstract void initListener();//初始化listener
 
-    protected void initActionBar2(){
+    protected void initActionBarHideLogo(){
         mActionBar = getSupportActionBar();
         /**
          * 给左上角图标的左边加上一个的图标
@@ -49,7 +49,7 @@ public abstract class BaseActivity extends ActionBarActivity {
         mActionBar.setHomeButtonEnabled(true);
 	}
 
-    protected void initHomeAndBackButton(){
+    protected void initActionBarShowLogo(){
         /*
          * 给左上角图标的左边加上一个返回的图标
          */
@@ -93,4 +93,5 @@ public abstract class BaseActivity extends ActionBarActivity {
             mProgressDialog.dismiss();
         }
     }
+
 }

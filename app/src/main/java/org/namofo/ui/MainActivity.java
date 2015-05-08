@@ -131,7 +131,7 @@ public class MainActivity extends BaseActivity implements OnClickListener{
         mTxtLogin = (TextView) findViewById(R.id.sliding_txt_login);
 
         mColumns = getResources().getStringArray(R.array.columns);
-        initActionBar2();
+        initActionBarHideLogo();
 		getSupportActionBar().setTitle(mColumns[0]);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
