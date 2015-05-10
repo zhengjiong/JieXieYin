@@ -18,7 +18,7 @@
     </string-array>
 
     <string-array name="sex_items">
-        <item>男</item>
-        <item>女</item>
+        <item>man</item>
+        <item>woman</item>
     </string-array>
 </resources>

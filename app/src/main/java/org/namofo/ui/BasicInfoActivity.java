@@ -1,6 +1,7 @@
 package org.namofo.ui;
 
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -85,6 +86,12 @@ public class BasicInfoActivity extends BaseActivity{
     }
 
     public static class BasicInfoFragment extends PreferenceFragment{
+        private ListPreference mSexListPreference;
+        private EditTextPreference mAgeEditPreference;
+        private EditTextPreference mXueLiEditPreference;
+        private EditTextPreference mAiHaoEditPreference;
+        private EditTextPreference mTeChangEditPreference;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -93,77 +100,136 @@ public class BasicInfoActivity extends BaseActivity{
             addPreferencesFromResource(R.xml.basic_info_preference);
         }
 
+        private void initView(){
+            mSexListPreference = (ListPreference) findPreference("sex");
+            mAgeEditPreference = (EditTextPreference) findPreference("age");
+            mXueLiEditPreference = (EditTextPreference) findPreference("xueli");
+            mAiHaoEditPreference = (EditTextPreference) findPreference("aihao");
+            mTeChangEditPreference = (EditTextPreference) findPreference("techang");
+
+            mSexListPreference.setSummary("".equals(mSexListPreference.getValue()) ? "未填写" : mSexListPreference.getValue());
+            mAgeEditPreference.setSummary("".equals(mAgeEditPreference.getText()) ? "未填写" : mAgeEditPreference.getText());
+            mXueLiEditPreference.setSummary("".equals(mXueLiEditPreference.getText()) ? "未填写" : mXueLiEditPreference.getText());
+            mAiHaoEditPreference.setSummary("".equals(mAiHaoEditPreference.getText()) ? "未填写" : mAiHaoEditPreference.getText());
+            mTeChangEditPreference.setSummary("".equals(mTeChangEditPreference.getText()) ? "未填写" : mTeChangEditPreference.getText());
+        }
+
+        private void initListener(){
+            mSexListPreference.setOnPreferenceChangeListener(new MyPreferenceChangeListener("sex", mSexListPreference.getValue(), mSexListPreference));
+            mAgeEditPreference.setOnPreferenceChangeListener(new MyPreferenceChangeListener("age", mAgeEditPreference.getText(), mAgeEditPreference));
+            mXueLiEditPreference.setOnPreferenceChangeListener(new MyPreferenceChangeListener("xueli", mXueLiEditPreference.getText(), mXueLiEditPreference));
+            mAiHaoEditPreference.setOnPreferenceChangeListener(new MyPreferenceChangeListener("aihao", mAiHaoEditPreference.getText(), mAiHaoEditPreference));
+            mTeChangEditPreference.setOnPreferenceChangeListener(new MyPreferenceChangeListener("techang", mTeChangEditPreference.getText(), mTeChangEditPreference));
+        }
+
+        class MyPreferenceChangeListener implements Preference.OnPreferenceChangeListener {
+            private String mKey;
+            private String mDefaultValue;
+            private Preference mPreference;
+
+            public MyPreferenceChangeListener(String key, String defaultValue, Preference preference){
+                this.mKey = key;
+                this.mDefaultValue = defaultValue;
+                this.mPreference = preference;
+            }
+
+            /**
+             * True to update the state of the Preference with the new value.
+             * 返回true才會保存選擇的值
+             */
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Debug.i(tag, "onPreferenceChange newValue=" + newValue.toString());
+
+                RequestParams params = new RequestParams();
+                params.addBodyParameter("control", "setUserInfo");
+                params.addBodyParameter("uid", PreferencesUtils.getString(getActivity(), "uid"));
+
+                switch (preference.getKey()) {
+                    case "sex":
+                        params.addBodyParameter("sex", newValue.toString());
+                        break;
+                    case "age":
+                        params.addBodyParameter("age", newValue.toString());
+                        break;
+                    case "xueli":
+                        params.addBodyParameter("xueli", newValue.toString());
+                        break;
+                    case "aihao":
+                        params.addBodyParameter("aihao", newValue.toString());
+                        break;
+                    case "techang":
+                        params.addBodyParameter("techang", newValue.toString());
+                        break;
+                    default:
+                        return false;
+                }
+                saveData(params);
+                return true;
+            }
+
+            /**
+             * 保存數據
+             */
+            private void saveData(RequestParams params){
+                ProgressDialogUtils.show(getActivity(), "操作中...");
+
+                AppContext.getInstance().getHttpUtils().send(HttpRequest.HttpMethod.POST, Constants.HOST_URL, params, new RequestCallBack<Object>() {
+
+
+                    @Override
+                    public void onSuccess(ResponseInfo<Object> responseInfo) {
+                        Debug.i(tag, "onSuccess result=" + responseInfo.result.toString());
+                        ProgressDialogUtils.hide();
+                        //int code = responseInfo.statusCode;
+                        String result = responseInfo.result.toString();
+                        if (Strings.isNullOrEmpty(result)) {
+                            ToastUtils.show(getActivity(), R.string.error_server);
+                            return;
+                        }
+                        try {
+                            JSONObject jsonResult = new JSONObject(result);
+                            if (jsonResult.has("error")) {
+                                ToastUtils.show(getActivity(), jsonResult.getString("info"));
+                                //还原数据
+                                mPreference.getEditor().putString(mKey, mDefaultValue).commit();
+                                Debug.i(tag, "defaultValue=" + mDefaultValue);
+                            } else {
+                                if ("0".equals(jsonResult.getString("result"))) {
+                                    ToastUtils.show(getActivity(), "修改失败");
+                                    //还原数据
+                                    mPreference.getEditor().putString(mKey, mDefaultValue).commit();
+                                    Debug.i(tag, "defaultValue=" + mDefaultValue);
+                                } else {
+                                    ToastUtils.show(getActivity(), "修改成功");
+                                    mPreference.setSummary(mPreference.getSharedPreferences().getString(mKey, mDefaultValue));
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            ToastUtils.show(getActivity(), R.string.error_json);
+                            //还原数据
+                            mPreference.getEditor().putString(mKey, mDefaultValue);
+                            mPreference.shouldCommit();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(HttpException e, String s) {
+                        ToastUtils.show(getActivity(), R.string.error_server);
+                        ProgressDialogUtils.hide();
+                    }
+                });
+            }
+        }
+
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
 
-            ListPreference sexPreference = (ListPreference) findPreference("sex");
-
-            sexPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    Debug.i(tag, "onPreferenceChange newValue=" + newValue.toString());
-
-                    RequestParams params = new RequestParams();
-                    params.addBodyParameter("control", "setUserInfo");
-                    params.addBodyParameter("uid", PreferencesUtils.getString(getActivity(), "uid"));
-                    params.addBodyParameter("sex", newValue.toString());
-                    saveData(params);
-
-                    /*
-                     * True to update the state of the Preference with the new value.
-                     * 返回true才會保存選擇的值
-                     */
-                    return true;
-
-                }
-            });
-            sexPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Debug.i(tag, "onPreferenceChange key=" + preference.getKey());
-                    Debug.i(tag, "onPreferenceChange title=" + preference.getTitle());
-                    return true;
-                }
-            });
+            initView();
+            initListener();
         }
 
-        private void saveData(RequestParams params){
-            ProgressDialogUtils.show(getActivity(), "操作中...");
-
-            AppContext.getInstance().getHttpUtils().send(HttpRequest.HttpMethod.POST, Constants.HOST_URL, params, new RequestCallBack<Object>() {
-
-                /*
-                 * {"uid":"735","result":"1"}
-                 */
-                @Override
-                public void onSuccess(ResponseInfo<Object> responseInfo) {
-                    ProgressDialogUtils.hide();
-                    //int code = responseInfo.statusCode;
-                    String result = responseInfo.result.toString();
-                    if (Strings.isNullOrEmpty(result)) {
-                        ToastUtils.show(getActivity(), R.string.error_server);
-                        return;
-                    }
-                    try {
-                        JSONObject jsonResult = new JSONObject(result);
-                        if ("0".equals(jsonResult.getString("result"))) {
-                            ToastUtils.show(getActivity(), jsonResult.getString("info"));
-                        } else {
-                            ToastUtils.show(getActivity(), "修改成功");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        ToastUtils.show(getActivity(), R.string.error_json);
-                    }
-                }
-
-                @Override
-                public void onFailure(HttpException e, String s) {
-                    ToastUtils.show(getActivity(), R.string.error_server);
-                    ProgressDialogUtils.hide();
-                }
-            });
-        }
     }
 }
