@@ -462,14 +462,14 @@ public class MainActivity extends BaseActivity implements OnClickListener{
                         }
                         setCloseAble(mLoginDialog, true);
                         RequestParams params = new RequestParams();
-                        params.addBodyParameter("control", "userlogin");
-                        params.addBodyParameter("userName", username);
-                        params.addBodyParameter("password", password);
+                        params.addQueryStringParameter("control", "userlogin");
+                        params.addQueryStringParameter("userName", username);
+                        params.addQueryStringParameter("password", password);
 
 						/**
 						 * 用戶登錄
 						 */
-                        AppContext.getInstance().getHttpUtils().send(HttpRequest.HttpMethod.POST, Constants.HOST_URL, params, new RequestCallBack<Object>() {
+                        AppContext.getInstance().getHttpUtils().send(HttpRequest.HttpMethod.GET, Constants.HOST_URL, params, new RequestCallBack<Object>() {
                             /**
                              {
                              "uid": "735",
@@ -497,7 +497,8 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 								ProgressDialogUtils.hide();
                                 int code = info.statusCode;
                                 String result = info.result.toString();
-                                if (Strings.isNullOrEmpty(result)) {
+								Log.e(TAG, "login result=" + result);
+								if (Strings.isNullOrEmpty(result)) {
                                     ToastUtils.show(MainActivity.this, R.string.error_server);
                                     return;
                                 }

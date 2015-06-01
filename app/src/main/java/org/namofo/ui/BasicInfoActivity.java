@@ -142,24 +142,24 @@ public class BasicInfoActivity extends BaseActivity{
                 Debug.i(tag, "onPreferenceChange newValue=" + newValue.toString());
 
                 RequestParams params = new RequestParams();
-                params.addBodyParameter("control", "setUserInfo");
-                params.addBodyParameter("uid", PreferencesUtils.getString(getActivity(), "uid"));
+                params.addQueryStringParameter("control", "setUserInfo");
+                params.addQueryStringParameter("uid", PreferencesUtils.getString(getActivity(), "uid"));
 
                 switch (preference.getKey()) {
                     case "sex":
-                        params.addBodyParameter("sex", newValue.toString());
+                        params.addQueryStringParameter("sex", newValue.toString());
                         break;
                     case "age":
-                        params.addBodyParameter("age", newValue.toString());
+                        params.addQueryStringParameter("age", newValue.toString());
                         break;
                     case "xueli":
-                        params.addBodyParameter("xueli", newValue.toString());
+                        params.addQueryStringParameter("xueli", newValue.toString());
                         break;
                     case "aihao":
-                        params.addBodyParameter("aihao", newValue.toString());
+                        params.addQueryStringParameter("aihao", newValue.toString());
                         break;
                     case "techang":
-                        params.addBodyParameter("techang", newValue.toString());
+                        params.addQueryStringParameter("techang", newValue.toString());
                         break;
                     default:
                         return false;
@@ -174,7 +174,7 @@ public class BasicInfoActivity extends BaseActivity{
             private void saveData(RequestParams params){
                 ProgressDialogUtils.show(getActivity(), "操作中...");
 
-                AppContext.getInstance().getHttpUtils().send(HttpRequest.HttpMethod.POST, Constants.HOST_URL, params, new RequestCallBack<Object>() {
+                AppContext.getInstance().getHttpUtils().send(HttpRequest.HttpMethod.GET, Constants.HOST_URL, params, new RequestCallBack<Object>() {
 
 
                     @Override
